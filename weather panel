@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Weather UI</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(120deg, #1d2671, #c33764);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+/* 🌥️ MOVING CLOUDS */
+.cloud {
+  position: absolute;
+  width: 200px;
+  opacity: 0.2;
+  animation: moveClouds 60s linear infinite;
+}
+
+.cloud:nth-child(1) { top: 10%; left: -200px; }
+.cloud:nth-child(2) { top: 50%; left: -300px; animation-duration: 80s; }
+
+@keyframes moveClouds {
+  from { transform: translateX(0); }
+  to { transform: translateX(150vw); }
+}
+
+/* MAIN CARD */
+.container {
+  width: 900px;
+  padding: 30px;
+  border-radius: 25px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+/* CITY BUTTONS */
+.cities {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.city-btn {
+  padding: 8px 18px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.15);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.city-btn:hover {
+  background: rgba(255,255,255,0.4);
+}
+
+.active {
+  background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+  color: black;
+}
+
+/* TOP */
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.city-name {
+  font-size: 30px;
+}
+
+.temp {
+  font-size: 65px;
+  font-weight: bold;
+  text-shadow: 0 0 20px rgba(255,255,255,0.6);
+}
+
+.icon {
+  font-size: 70px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  50% { transform: translateY(-10px); }
+}
+
+/* GRAPH */
+canvas {
+  margin-top: 20px;
+}
+
+/* FORECAST */
+.forecast {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.card {
+  padding: 10px;
+  border-radius: 15px;
+  text-align: center;
+  width: 100px;
+  background: rgba(255,255,255,0.1);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.1);
+  background: rgba(255,255,255,0.3);
+}
+</style>
+</head>
+
+<body>
+
+<!-- CLOUDS -->
+<img src="https://cdn-icons-png.flaticon.com/512/414/414825.png" class="cloud">
+<img src="https://cdn-icons-png.flaticon.com/512/414/414825.png" class="cloud">
+
+<div class="container">
+
+  <div class="cities">
+    <div class="city-btn active" onclick="loadCity('nagpur', this)">Nagpur</div>
+    <div class="city-btn" onclick="loadCity('mumbai', this)">Mumbai</div>
+    <div class="city-btn" onclick="loadCity('delhi', this)">Delhi</div>
+  </div>
+
+  <div class="top">
+    <div>
+      <div class="city-name" id="cityName">Nagpur</div>
+      <div class="icon" id="icon">☀️</div>
+    </div>
+    <div class="temp" id="temp">30°C</div>
+  </div>
+
+  <canvas id="chart" width="800" height="250"></canvas>
+
+  <div class="forecast" id="forecast"></div>
+
+</div>
+
+<script>
+const data = {
+  nagpur: { temps: [30,32,31,29,28,27,30], icon:"☀️"},
+  mumbai: { temps: [28,29,30,29,28,27,28], icon:"🌧️"},
+  delhi: { temps: [25,27,26,24,23,22,24], icon:"⛅"}
+};
+
+const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const canvas = document.getElementById("chart");
+const ctx = canvas.getContext("2d");
+
+/* 🌈 CURVED GRAPH */
+function drawGraph(arr) {
+  let progress = 0;
+
+  function animate() {
+    progress += 0.02;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    ctx.beginPath();
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = "#fff";
+
+    for(let i=0;i<arr.length;i++){
+      let x = i * (canvas.width/(arr.length-1));
+      let y = canvas.height - arr[i]*5;
+
+      if(i===0) ctx.moveTo(x,y);
+      else {
+        let prevX = (i-1)*(canvas.width/(arr.length-1));
+        let prevY = canvas.height - arr[i-1]*5;
+
+        let cpX = (prevX + x)/2;
+        ctx.quadraticCurveTo(cpX, prevY, x, y);
+      }
+    }
+
+    ctx.stroke();
+
+    // gradient fill
+    let gradient = ctx.createLinearGradient(0,0,0,canvas.height);
+    gradient.addColorStop(0,"rgba(255,255,255,0.4)");
+    gradient.addColorStop(1,"transparent");
+
+    ctx.lineTo(canvas.width,canvas.height);
+    ctx.lineTo(0,canvas.height);
+    ctx.fillStyle = gradient;
+    ctx.fill();
+
+    if(progress < 1) requestAnimationFrame(animate);
+  }
+
+  animate();
+}
+
+function loadCity(city, el){
+  document.querySelectorAll(".city-btn").forEach(b=>b.classList.remove("active"));
+  el.classList.add("active");
+
+  let d = data[city];
+
+  document.getElementById("cityName").innerText = city.toUpperCase();
+  document.getElementById("temp").innerText = d.temps[0]+"°C";
+  document.getElementById("icon").innerText = d.icon;
+
+  drawGraph(d.temps);
+
+  let f = document.getElementById("forecast");
+  f.innerHTML = "";
+
+  d.temps.forEach((t,i)=>{
+    f.innerHTML += `
+      <div class="card">
+        <div>${days[i]}</div>
+        <div>${t}°C</div>
+      </div>
+    `;
+  });
+}
+
+loadCity("nagpur", document.querySelector(".city-btn"));
+</script>
+
+</body>
+</html>
