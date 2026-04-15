@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ultimate C Programming Quiz</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI, sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:radial-gradient(circle at top,#1f1c2c,#000000);
+color:white;
+overflow:hidden;
+}
+
+/* floating background circles */
+
+body::before, body::after{
+content:"";
+position:absolute;
+width:400px;
+height:400px;
+background:linear-gradient(45deg,#00f2fe,#4facfe);
+border-radius:50%;
+filter:blur(120px);
+animation:float 8s infinite alternate;
+}
+
+body::after{
+background:linear-gradient(45deg,#ff4e50,#f9d423);
+top:60%;
+left:60%;
+}
+
+@keyframes float{
+from{transform:translateY(-40px)}
+to{transform:translateY(40px)}
+}
+
+/* quiz card */
+
+.quiz-box{
+width:600px;
+padding:35px;
+border-radius:20px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(15px);
+box-shadow:0 0 40px rgba(0,255,255,0.3);
+text-align:center;
+}
+
+h1{
+margin-bottom:15px;
+color:#00f2fe;
+text-shadow:0 0 10px #00f2fe;
+}
+
+#timer{
+font-size:18px;
+margin-bottom:10px;
+color:#ffd166;
+}
+
+/* progress bar */
+
+.progress{
+width:100%;
+height:10px;
+background:#333;
+border-radius:10px;
+margin-bottom:20px;
+}
+
+.progress-bar{
+height:10px;
+background:#00f2fe;
+width:0%;
+border-radius:10px;
+transition:0.4s;
+}
+
+/* question */
+
+#question{
+font-size:20px;
+margin-bottom:20px;
+}
+
+/* options */
+
+.option{
+padding:12px;
+margin:10px 0;
+border-radius:10px;
+background:#111;
+border:1px solid #00f2fe;
+cursor:pointer;
+transition:0.3s;
+}
+
+.option:hover{
+transform:scale(1.05);
+box-shadow:0 0 10px #00f2fe;
+}
+
+.selected{
+background:#00f2fe;
+color:black;
+}
+
+/* button */
+
+button{
+margin-top:20px;
+padding:12px 25px;
+border:none;
+border-radius:10px;
+background:#ff4e50;
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+box-shadow:0 0 10px #ff4e50;
+}
+
+button:hover{
+transform:scale(1.1);
+box-shadow:0 0 20px #ff4e50;
+}
+
+#result{
+font-size:24px;
+margin-top:20px;
+color:#43e97b;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="quiz-box">
+
+<h1>💻 C Programming Challenge</h1>
+
+<div id="timer">Time: 15</div>
+
+<div class="progress">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div id="question"></div>
+
+<div id="options"></div>
+
+<button onclick="nextQuestion()">Next</button>
+
+<div id="result"></div>
+
+<button onclick="restartQuiz()" id="restart" style="display:none;">Restart Quiz</button>
+
+</div>
+
+<script>
+
+const quiz=[
+
+{
+question:"Who developed C programming language?",
+options:["Dennis Ritchie","James Gosling","Bjarne Stroustrup","Guido van Rossum"],
+answer:"Dennis Ritchie"
+},
+
+{
+question:"Which symbol is used for single line comments in C?",
+options:["//","#","<!--","**"],
+answer:"//"
+},
+
+{
+question:"Which function prints output in C?",
+options:["scanf()","printf()","display()","print()"],
+answer:"printf()"
+},
+
+{
+question:"Which header file is required for printf()?",
+options:["stdlib.h","stdio.h","math.h","string.h"],
+answer:"stdio.h"
+},
+
+{
+question:"What is the extension of C source file?",
+options:[".cpp",".java",".c",".cs"],
+answer:".c"
+}
+
+];
+
+let index=0;
+let score=0;
+let selected="";
+let time=15;
+let timer;
+
+function startTimer(){
+
+clearInterval(timer);
+
+time=15;
+
+document.getElementById("timer").innerHTML="Time: "+time;
+
+timer=setInterval(()=>{
+
+time--;
+
+document.getElementById("timer").innerHTML="Time: "+time;
+
+if(time<=0){
+
+clearInterval(timer);
+
+nextQuestion();
+
+}
+
+},1000);
+
+}
+
+function loadQuestion(){
+
+startTimer();
+
+let q=quiz[index];
+
+document.getElementById("question").innerHTML=q.question;
+
+let html="";
+
+q.options.forEach(opt=>{
+html+=`<div class="option" onclick="selectOption(this,'${opt}')">${opt}</div>`;
+});
+
+document.getElementById("options").innerHTML=html;
+
+updateProgress();
+
+}
+
+function selectOption(element,opt){
+
+document.querySelectorAll(".option").forEach(el=>el.classList.remove("selected"));
+
+element.classList.add("selected");
+
+selected=opt;
+
+}
+
+function nextQuestion(){
+
+clearInterval(timer);
+
+if(selected===quiz[index].answer){
+score++;
+}
+
+selected="";
+
+index++;
+
+if(index<quiz.length){
+
+loadQuestion();
+
+}
+else{
+
+document.getElementById("question").innerHTML="";
+
+document.getElementById("options").innerHTML="";
+
+document.getElementById("timer").style.display="none";
+
+document.getElementById("result").innerHTML=
+"🏆 Your Score: "+score+" / "+quiz.length;
+
+document.getElementById("restart").style.display="inline-block";
+
+}
+
+}
+
+function updateProgress(){
+
+let progress=(index/quiz.length)*100;
+
+document.getElementById("progressBar").style.width=progress+"%";
+
+}
+
+function restartQuiz(){
+
+index=0;
+score=0;
+selected="";
+document.getElementById("restart").style.display="none";
+document.getElementById("timer").style.display="block";
+document.getElementById("result").innerHTML="";
+loadQuestion();
+
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
