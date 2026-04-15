@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Calendar To-Do</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins, sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#667eea,#764ba2);
+color:white;
+}
+
+/* MAIN CARD */
+.app{
+width:900px;
+padding:25px;
+border-radius:20px;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(15px);
+box-shadow:0 10px 40px rgba(0,0,0,0.4);
+}
+
+/* HEADER */
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+}
+
+.header button{
+background:rgba(255,255,255,0.2);
+border:none;
+padding:8px 15px;
+border-radius:10px;
+cursor:pointer;
+color:white;
+}
+
+/* CALENDAR GRID */
+.calendar{
+display:grid;
+grid-template-columns:repeat(7,1fr);
+gap:10px;
+}
+
+.day{
+padding:15px;
+border-radius:12px;
+background:rgba(255,255,255,0.1);
+text-align:center;
+cursor:pointer;
+transition:0.3s;
+position:relative;
+}
+
+.day:hover{
+transform:scale(1.1);
+background:rgba(255,255,255,0.3);
+}
+
+.today{
+background:linear-gradient(45deg,#ff9a9e,#fad0c4);
+color:black;
+}
+
+/* TASK DOT */
+.dot{
+width:6px;
+height:6px;
+background:#00ffcc;
+border-radius:50%;
+position:absolute;
+bottom:5px;
+left:50%;
+transform:translateX(-50%);
+}
+
+/* TASK PANEL */
+.task-panel{
+margin-top:20px;
+padding:15px;
+border-radius:15px;
+background:rgba(255,255,255,0.15);
+}
+
+.task-panel h3{
+margin-bottom:10px;
+}
+
+.task-input{
+display:flex;
+gap:10px;
+}
+
+.task-input input{
+flex:1;
+padding:8px;
+border:none;
+border-radius:8px;
+}
+
+.task-input button{
+padding:8px 15px;
+border:none;
+border-radius:8px;
+background:#00c9ff;
+color:white;
+cursor:pointer;
+}
+
+.task-list{
+margin-top:10px;
+}
+
+.task{
+background:rgba(255,255,255,0.2);
+padding:8px;
+margin:5px 0;
+border-radius:8px;
+display:flex;
+justify-content:space-between;
+}
+
+.delete{
+cursor:pointer;
+color:#ff4d4d;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="header">
+<button onclick="changeMonth(-1)">⬅</button>
+<h2 id="monthYear"></h2>
+<button onclick="changeMonth(1)">➡</button>
+</div>
+
+<div class="calendar" id="calendar"></div>
+
+<div class="task-panel">
+<h3 id="selectedDate">Select a date</h3>
+
+<div class="task-input">
+<input id="taskInput" placeholder="Add task...">
+<button onclick="addTask()">Add</button>
+</div>
+
+<div class="task-list" id="taskList"></div>
+</div>
+
+</div>
+
+<script>
+
+let currentDate = new Date();
+let selectedDate = null;
+
+let tasks = JSON.parse(localStorage.getItem("calendarTasks")) || {};
+
+function save(){
+localStorage.setItem("calendarTasks", JSON.stringify(tasks));
+}
+
+function renderCalendar(){
+
+let cal = document.getElementById("calendar");
+cal.innerHTML = "";
+
+let year = currentDate.getFullYear();
+let month = currentDate.getMonth();
+
+let firstDay = new Date(year, month, 1).getDay();
+let daysInMonth = new Date(year, month+1, 0).getDate();
+
+document.getElementById("monthYear").innerText =
+currentDate.toLocaleString("default",{month:"long",year:"numeric"});
+
+for(let i=0;i<firstDay;i++){
+cal.innerHTML += "<div></div>";
+}
+
+for(let d=1; d<=daysInMonth; d++){
+
+let dateStr = `${year}-${month}-${d}`;
+let div = document.createElement("div");
+div.classList.add("day");
+div.innerText = d;
+
+let today = new Date();
+if(d===today.getDate() && month===today.getMonth() && year===today.getFullYear()){
+div.classList.add("today");
+}
+
+if(tasks[dateStr] && tasks[dateStr].length > 0){
+let dot = document.createElement("div");
+dot.classList.add("dot");
+div.appendChild(dot);
+}
+
+div.onclick = () => selectDate(dateStr);
+
+cal.appendChild(div);
+}
+
+}
+
+function selectDate(dateStr){
+selectedDate = dateStr;
+document.getElementById("selectedDate").innerText = "Tasks for " + dateStr;
+renderTasks();
+}
+
+function addTask(){
+if(!selectedDate) return;
+
+let input = document.getElementById("taskInput");
+let text = input.value.trim();
+
+if(text==="") return;
+
+if(!tasks[selectedDate]) tasks[selectedDate] = [];
+
+tasks[selectedDate].push(text);
+
+input.value = "";
+
+save();
+renderTasks();
+renderCalendar();
+}
+
+function renderTasks(){
+
+let list = document.getElementById("taskList");
+list.innerHTML = "";
+
+if(!tasks[selectedDate]) return;
+
+tasks[selectedDate].forEach((t,i)=>{
+list.innerHTML += `
+<div class="task">
+${t}
+<span class="delete" onclick="deleteTask(${i})">✖</span>
+</div>
+`;
+});
+
+}
+
+function deleteTask(i){
+tasks[selectedDate].splice(i,1);
+save();
+renderTasks();
+renderCalendar();
+}
+
+function changeMonth(val){
+currentDate.setMonth(currentDate.getMonth() + val);
+renderCalendar();
+}
+
+renderCalendar();
+
+</script>
+
+</body>
+</html>
