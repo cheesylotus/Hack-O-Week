@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WanderWithUs</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") no-repeat center/cover;
+            height: 60vh;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        header p {
+            margin-top: 10px;
+        }
+
+        nav {
+            background: #4a90e2;
+            text-align: center;
+            padding: 10px;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .blog-post {
+            background: white;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .blog-post img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .content {
+            padding: 15px;
+        }
+
+        .content h2 {
+            color: #4a90e2;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 12px;
+            background: #4a90e2;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #357ABD;
+        }
+
+        .more-content {
+            display: none;
+            margin-top: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Wander With Us</h1>
+    <p>Exploring the world one place at a time ✈️</p>
+</header>
+
+<nav>
+    <a href="#">Home</a>
+    <a href="#">Destinations</a>
+    <a href="#">Travel Tips</a>
+    <a href="#">Contact</a>
+</nav>
+
+<div class="container">
+
+    <!-- 🌄 Mountains -->
+    <div class="blog-post">
+        <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470">
+        <div class="content">
+            <h2>Trip to the Mountains</h2>
+            <p>I explored beautiful mountain landscapes and peaceful surroundings.</p>
+
+            <div class="more-content">
+                <p>My trip to the mountains was one of the most peaceful experiences of my life. Surrounded by tall peaks and fresh air, it felt magical.</p>
+                <p>I enjoyed sunrise views, trekking, and local food. The calm environment helped me relax and reconnect with nature.</p>
+                <p>This journey taught me the importance of taking breaks and enjoying simple moments.</p>
+            </div>
+
+            <span class="btn" onclick="toggleContent(this)">Read More</span>
+        </div>
+    </div>
+
+    <!-- 🌊 Beach -->
+    <div class="blog-post">
+        <img src="https://images.unsplash.com/photo-1493558103817-58b2924bce98">
+        <div class="content">
+            <h2>Relaxing at the Beach</h2>
+            <p>The sound of waves and sunsets made this trip unforgettable.</p>
+
+            <div class="more-content">
+                <p>The beach was calm and refreshing. Walking on the sand and watching sunsets was amazing.</p>
+                <p>I tried water activities and enjoyed seafood. The peaceful vibe made it a perfect escape.</p>
+                <p>This trip helped me relax and recharge completely.</p>
+            </div>
+
+            <span class="btn" onclick="toggleContent(this)">Read More</span>
+        </div>
+    </div>
+
+    <!-- 🌆 City -->
+    <div class="blog-post">
+        <img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad">
+        <div class="content">
+            <h2>City Adventures</h2>
+            <p>Exploring the vibrant city life was full of excitement.</p>
+
+            <div class="more-content">
+                <p>The city was full of energy, lights, and activity. I visited markets and tourist spots.</p>
+                <p>Street food and nightlife were highlights of the trip. Every place had something unique.</p>
+                <p>This experience showed me how dynamic and fun city life can be.</p>
+            </div>
+
+            <span class="btn" onclick="toggleContent(this)">Read More</span>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2026 WanderWithUs | Travel Blog</p>
+</footer>
+
+<script>
+function toggleContent(button) {
+    const content = button.previousElementSibling;
+
+    if (content.style.display === "block") {
+        content.style.display = "none";
+        button.textContent = "Read More";
+    } else {
+        content.style.display = "block";
+        button.textContent = "Show Less";
+    }
+}
+</script>
+
+</body>
+</html>
