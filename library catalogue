@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Library Catalogue</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Merriweather&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Merriweather', serif;
+}
+
+body{
+background:linear-gradient(135deg,#2b1d0e,#5a3e1b);
+color:#f5e6c4;
+padding:20px;
+}
+
+/* TITLE */
+h1{
+font-family:'Cinzel', serif;
+text-align:center;
+font-size:42px;
+margin-bottom:20px;
+letter-spacing:2px;
+color:#ffd700;
+text-shadow:0 0 10px rgba(255,215,0,0.5);
+}
+
+/* FORM */
+.form{
+display:flex;
+justify-content:center;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+input{
+padding:10px;
+border:none;
+border-radius:6px;
+background:#f5e6c4;
+color:#2b1d0e;
+}
+
+button{
+padding:10px 15px;
+border:none;
+border-radius:6px;
+background:#8b5e3c;
+color:#fff;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#a67c52;
+transform:scale(1.05);
+}
+
+/* SEARCH */
+.search{
+text-align:center;
+margin-bottom:20px;
+}
+
+.search input{
+width:250px;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+/* CARD */
+.card{
+background:linear-gradient(145deg,#3e2c17,#2b1d0e);
+padding:18px;
+border-radius:12px;
+box-shadow:0 8px 20px rgba(0,0,0,0.6);
+border:1px solid rgba(255,215,0,0.2);
+transition:0.3s;
+position:relative;
+}
+
+.card:hover{
+transform:translateY(-8px) scale(1.03);
+box-shadow:0 12px 30px rgba(0,0,0,0.8);
+}
+
+/* BOOK STRIPE */
+.card::before{
+content:"";
+position:absolute;
+left:0;
+top:0;
+height:100%;
+width:6px;
+background:#d4af37;
+border-radius:6px 0 0 6px;
+}
+
+.title{
+font-family:'Cinzel', serif;
+font-size:20px;
+color:#ffd700;
+}
+
+.author{
+margin:5px 0;
+opacity:0.9;
+}
+
+.category{
+font-size:12px;
+background:#6b4f2b;
+padding:4px 8px;
+border-radius:5px;
+display:inline-block;
+}
+
+.remove{
+margin-top:10px;
+background:#a94442;
+padding:5px 10px;
+border-radius:5px;
+cursor:pointer;
+display:inline-block;
+}
+
+.remove:hover{
+background:#c9302c;
+}
+
+/* INFO */
+.info{
+text-align:center;
+margin-bottom:10px;
+font-size:14px;
+opacity:0.8;
+}
+</style>
+</head>
+
+<body>
+
+<h1>📚 Royal Library Catalogue</h1>
+
+<div class="form">
+<input id="title" placeholder="Book Title">
+<input id="author" placeholder="Author">
+<input id="category" placeholder="Category">
+<button onclick="addBook()">Add Book</button>
+</div>
+
+<div class="search">
+<input id="search" placeholder="Search by title..." onkeyup="renderBooks()">
+</div>
+
+<div class="info" id="info"></div>
+
+<div class="grid" id="bookGrid"></div>
+
+<script>
+
+const MAX = 10;
+let books = new Array(MAX).fill(null);
+
+function addBook(){
+
+let t = document.getElementById("title").value.trim();
+let a = document.getElementById("author").value.trim();
+let c = document.getElementById("category").value.trim();
+
+if(t==="" || a==="" || c==="") return;
+
+let index = books.findIndex(b => b === null);
+
+if(index === -1){
+alert("Library is full!");
+return;
+}
+
+books[index] = {title:t, author:a, category:c};
+
+document.getElementById("title").value="";
+document.getElementById("author").value="";
+document.getElementById("category").value="";
+
+renderBooks();
+}
+
+function removeBook(i){
+books[i] = null;
+renderBooks();
+}
+
+function renderBooks(){
+
+let grid = document.getElementById("bookGrid");
+grid.innerHTML = "";
+
+let search = document.getElementById("search").value.toLowerCase();
+
+books.forEach((b,i)=>{
+if(b !== null && b.title.toLowerCase().includes(search)){
+
+grid.innerHTML += `
+<div class="card">
+<div class="title">${b.title}</div>
+<div class="author">by ${b.author}</div>
+<div class="category">${b.category}</div>
+<div class="remove" onclick="removeBook(${i})">Remove</div>
+</div>
+`;
+}
+});
+
+document.getElementById("info").innerText =
+`Books: ${books.filter(b=>b!==null).length} / ${MAX}`;
+}
+
+renderBooks();
+
+</script>
+
+</body>
+</html>
