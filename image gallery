@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elite Gallery</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: radial-gradient(circle at top, #1b2735, #090a0f);
+    color: white;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 25px;
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+}
+
+/* 🎨 Masonry Layout */
+.gallery {
+    column-count: 3;
+    column-gap: 15px;
+    padding: 20px;
+}
+
+.gallery a {
+    display: block;
+    margin-bottom: 15px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.gallery img {
+    width: 100%;
+    transition: 0.4s;
+}
+
+.gallery a:hover img {
+    transform: scale(1.1);
+    filter: brightness(60%);
+}
+
+/* Overlay */
+.gallery a::after {
+    content: "VIEW";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.gallery a:hover::after {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* 🔥 Lightbox */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.4s;
+}
+
+/* Activate */
+.lightbox:target {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Image */
+.lightbox img {
+    max-width: 85%;
+    max-height: 75%;
+    border-radius: 10px;
+    transition: 0.4s;
+    transform: scale(0.7);
+}
+
+/* Zoom effect */
+.lightbox:target img {
+    transform: scale(1);
+}
+
+/* Close */
+.close {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    font-size: 2.5rem;
+    color: white;
+    text-decoration: none;
+}
+
+/* Navigation arrows */
+.nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3rem;
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    transition: 0.3s;
+}
+
+.nav:hover {
+    color: #00c6ff;
+}
+
+.prev { left: 30px; }
+.next { right: 30px; }
+
+/* Caption */
+.caption {
+    position: absolute;
+    bottom: 30px;
+    color: #ccc;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #aaa;
+}
+
+/* Responsive */
+@media(max-width: 900px) {
+    .gallery { column-count: 2; }
+}
+
+@media(max-width: 600px) {
+    .gallery { column-count: 1; }
+}
+</style>
+
+</head>
+
+<body>
+
+<header>📸 Elite Gallery</header>
+
+<!-- Gallery -->
+<div class="gallery">
+    <a href="#img1"><img src="https://picsum.photos/id/1015/600/800"></a>
+    <a href="#img2"><img src="https://picsum.photos/id/1016/600/500"></a>
+    <a href="#img3"><img src="https://picsum.photos/id/1018/600/700"></a>
+    <a href="#img4"><img src="https://picsum.photos/id/1020/600/600"></a>
+    <a href="#img5"><img src="https://picsum.photos/id/1024/600/900"></a>
+    <a href="#img6"><img src="https://picsum.photos/id/1027/600/650"></a>
+    <a href="#img7"><img src="https://picsum.photos/id/1035/600/750"></a>
+    <a href="#img8"><img src="https://picsum.photos/id/1039/600/550"></a>
+    <a href="#img9"><img src="https://picsum.photos/id/1043/600/800"></a>
+</div>
+
+<!-- Lightboxes with navigation -->
+
+<div id="img1" class="lightbox">
+    <a href="#img9" class="nav prev">❮</a>
+    <img src="https://picsum.photos/id/1015/1200/800">
+    <a href="#img2" class="nav next">❯</a>
+    <a href="#" class="close">&times;</a>
+    <div class="caption">Mountain View</div>
+</div>
+
+<div id="img2" class="lightbox">
+    <a href="#img1" class="nav prev">❮</a>
+    <img src="https://picsum.photos/id/1016/1200/800">
+    <a href="#img3" class="nav next">❯</a>
+    <a href="#" class="close">&times;</a>
+    <div class="caption">Forest Mood</div>
+</div>
+
+<div id="img3" class="lightbox">
+    <a href="#img2" class="nav prev">❮</a>
+    <img src="https://picsum.photos/id/1018/1200/800">
+    <a href="#img4" class="nav next">❯</a>
+    <a href="#" class="close">&times;</a>
+    <div class="caption">Ocean Calm</div>
+</div>
+
+<div id="img4" class="lightbox">
+    <a href="#img3" class="nav prev">❮</a>
+    <img src="https://picsum.photos/id/1020/1200/800">
+    <a href="#img5" class="nav next">❯</a>
+    <a href="#" class="close">&times;</a>
+    <div class="caption">Golden Hour</div>
+</div>
+
+<div id="img5" class="lightbox">
+    <a href="#img4" class="nav prev">❮</a>
+    <img src="https://picsum.photos/id/1024/1200/800">
+    <a href="#img6" class="nav next">❯</a>
+    <a href="#" class="close">&times;</a>
+    <div class="caption">Wildlife</div>
+</div>
+
+<div id="img6" class="lightbox">
+    <a href="#img5" class="nav prev">❮</a>
+    <img src="https://picsum.photos/id/1027/1200/800">
+    <a href="#img7" class="nav next">❯</a>
+    <a href="#" class="close">&times;</a>
+    <div class="caption">City Lights</div>
+</div>
+
+<div id="img7" class="lightbox">
+    <a href="#img6" class="nav prev">❮</a>
+    <img src="https://picsum.photos/id/1035/1200/800">
+    <a href="#img8" class="nav next">❯</a>
+    <a href="#" class="close">&times;</a>
+    <div class="caption">Portrait</div>
+</div>
+
+<div id="img8" class="lightbox">
+    <a href="#img7" class="nav prev">❮</a>
+    <img src="https://picsum.photos/id/1039/1200/800">
+    <a href="#img9" class="nav next">❯</a>
+    <a href="#" class="close">&times;</a>
+    <div class="caption">Night Sky</div>
+</div>
+
+<div id="img9" class="lightbox">
+    <a href="#img8" class="nav prev">❮</a>
+    <img src="https://picsum.photos/id/1043/1200/800">
+    <a href="#img1" class="nav next">❯</a>
+    <a href="#" class="close">&times;</a>
+    <div class="caption">Minimal Art</div>
+</div>
+
+<footer>© 2026 Elite Photography</footer>
+
+</body>
+</html>
