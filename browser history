@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Browser History</title>
+
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #667eea, #764ba2);
+      --card: rgba(255,255,255,0.1);
+      --text: white;
+    }
+
+    body.light {
+      --bg: #f4f4f4;
+      --card: white;
+      --text: black;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI';
+      background: var(--bg);
+      color: var(--text);
+      text-align: center;
+      transition: 0.4s;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+    .container {
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      margin: 20px auto;
+      width: 90%;
+      max-width: 700px;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      animation: fadeIn 1s ease;
+    }
+
+    input {
+      padding: 10px;
+      width: 60%;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    .visit { background: #4CAF50; color: white; }
+    .nav { background: #2196F3; color: white; }
+    .clear { background: #f44336; color: white; }
+    .toggle { background: #555; color: white; }
+
+    iframe {
+      width: 100%;
+      height: 300px;
+      margin-top: 15px;
+      border-radius: 10px;
+      border: none;
+      animation: slideIn 0.5s ease;
+    }
+
+    .stack {
+      margin-top: 15px;
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: scale(0.95);}
+      to { opacity: 1; transform: scale(1);}
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>✨ Smart Browser History</h1>
+
+<div class="container">
+
+  <input type="text" id="urlInput" placeholder="Enter URL (example.com)">
+  <br><br>
+
+  <button class="visit" onclick="visit()">Visit</button>
+  <button class="nav" onclick="goBack()">⬅ Back</button>
+  <button class="nav" onclick="goForward()">Forward ➡</button>
+  <button class="clear" onclick="clearHistory()">Clear</button>
+  <button class="toggle" onclick="toggleMode()">🌙 Toggle Mode</button>
+
+  <div id="current"><b>Current:</b> None</div>
+
+  <iframe id="viewer"></iframe>
+
+  <div class="stack">
+    <p>⬅ Back Stack (<span id="backCount">0</span>): <span id="backStack"></span></p>
+    <p>Forward Stack ➡ (<span id="forwardCount">0</span>): <span id="forwardStack"></span></p>
+  </div>
+
+</div>
+
+<script>
+  let backStack = JSON.parse(localStorage.getItem("backStack")) || [];
+  let forwardStack = JSON.parse(localStorage.getItem("forwardStack")) || [];
+  let currentPage = localStorage.getItem("currentPage") || null;
+
+  function formatURL(url) {
+    if (!url.startsWith("http")) {
+      return "https://" + url;
+    }
+    return url;
+  }
+
+  function save() {
+    localStorage.setItem("backStack", JSON.stringify(backStack));
+    localStorage.setItem("forwardStack", JSON.stringify(forwardStack));
+    localStorage.setItem("currentPage", currentPage);
+  }
+
+  function updateUI() {
+    document.getElementById("current").innerHTML =
+      "<b>Current:</b> " + (currentPage || "None");
+
+    document.getElementById("backStack").innerText = backStack.join(" ← ");
+    document.getElementById("forwardStack").innerText = forwardStack.join(" → ");
+
+    document.getElementById("backCount").innerText = backStack.length;
+    document.getElementById("forwardCount").innerText = forwardStack.length;
+
+    document.getElementById("viewer").src = currentPage || "";
+
+    save();
+  }
+
+  function visit() {
+    let url = document.getElementById("urlInput").value;
+    if (!url) return;
+
+    url = formatURL(url);
+
+    if (currentPage) {
+      backStack.push(currentPage);
+    }
+
+    currentPage = url;
+    forwardStack = [];
+
+    updateUI();
+  }
+
+  function goBack() {
+    if (backStack.length === 0) {
+      alert("No back history!");
+      return;
+    }
+
+    forwardStack.push(currentPage);
+    currentPage = backStack.pop();
+
+    updateUI();
+  }
+
+  function goForward() {
+    if (forwardStack.length === 0) {
+      alert("No forward history!");
+      return;
+    }
+
+    backStack.push(currentPage);
+    currentPage = forwardStack.pop();
+
+    updateUI();
+  }
+
+  function clearHistory() {
+    backStack = [];
+    forwardStack = [];
+    currentPage = null;
+    updateUI();
+  }
+
+  function toggleMode() {
+    document.body.classList.toggle("light");
+  }
+
+  updateUI();
+</script>
+
+</body>
+</html>
