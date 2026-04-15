@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swarupa | Portfolio</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        header {
+            background: #4a90e2;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        section {
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: #4a90e2;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #333;
+            color: white;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #4a90e2;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #357ABD;
+        }
+
+        /* 👇 Photo Frame Styling */
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .photo-frame {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            padding: 5px;
+            background: linear-gradient(135deg, #4a90e2, #8e44ad);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Swarupa</h1>
+        <p>B.Tech CSE Student | Future Software Developer</p>
+        <nav>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <section id="about">
+        <h2>About Me</h2>
+        <div class="card profile-container">
+
+            <!-- 👇 Photo Frame -->
+            <div class="photo-frame">
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1" alt="Profile Photo">
+            </div>
+
+            <!-- 👇 About Text -->
+            <div>
+                <p>Hello! I'm Swarupa, an 18-year-old B.Tech Computer Science student at Symbiosis Institute of Technology, Nagpur.</p>
+                <p>I am passionate about technology, coding, and building creative solutions. Currently, I am exploring web development, data structures, and problem-solving.</p>
+                <p>I enjoy learning new programming languages and working on projects.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2>Skills</h2>
+        <div class="card">
+            <ul>
+                <li>HTML, CSS, JavaScript</li>
+                <li>Python (Basic)</li>
+                <li>C / C++</li>
+                <li>Data Structures & Algorithms</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>Projects</h2>
+
+        <div class="card">
+            <h3>Portfolio Website</h3>
+            <p>A personal portfolio website to showcase my skills.</p>
+        </div>
+
+        <div class="card">
+            <h3>Student Management System</h3>
+            <p>Built using C++ to manage student records.</p>
+        </div>
+
+        <div class="card">
+            <h3>To-Do List App</h3>
+            <p>A simple task manager using HTML, CSS, and JavaScript.</p>
+        </div>
+
+    </section>
+
+    <section id="contact">
+        <h2>Contact</h2>
+        <div class="card">
+            <p>Email: swarupa@example.com</p>
+            <p>LinkedIn: linkedin.com/in/swarupa</p>
+            <p>GitHub: github.com/swarupa</p>
+
+            <a href="#" class="btn">Download Resume</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Swarupa | All Rights Reserved</p>
+    </footer>
+
+</body>
+</html>
