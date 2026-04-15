@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Development Course | Tech Institute</title>
+
+<style>
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #f0f4f8;
+    color: #333;
+}
+
+/* Navbar */
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 40px;
+    background: linear-gradient(90deg,#4a90e2,#8e44ad);
+    color: white;
+    position: sticky;
+    top: 0;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+nav a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+nav a:hover {
+    color: #ffe600;
+}
+
+/* Hero */
+.hero {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 80px 40px;
+    background: linear-gradient(135deg,#4a90e2,#8e44ad);
+    color: white;
+    position: relative;
+}
+.hero-text {
+    max-width: 500px;
+    z-index: 1;
+}
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 6px rgba(0,0,0,0.4);
+}
+.hero p {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+.hero img {
+    width: 350px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background: #ffe600;
+    color: #4a90e2;
+    border-radius: 50px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.4s;
+}
+.btn:hover {
+    background: #ffd500;
+    transform: translateY(-3px) scale(1.05);
+}
+
+/* Sections */
+section {
+    padding: 70px 20px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: 0.7s;
+}
+section.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Features */
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.feature {
+    background: white;
+    margin: 15px;
+    padding: 30px 20px;
+    width: 280px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: 0.5s;
+}
+.feature:hover {
+    transform: translateY(-15px) rotate(-1deg);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+}
+
+/* Instructors */
+.instructors {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.instructor-card {
+    background: white;
+    margin: 15px;
+    padding: 20px;
+    width: 250px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: 0.4s;
+}
+.instructor-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+}
+.instructor-card img {
+    width: 100%;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+/* Form */
+form {
+    max-width: 450px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 12px 0;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    transition: 0.3s;
+}
+input:focus {
+    border-color: #4a90e2;
+    outline: none;
+}
+form button {
+    width: 100%;
+    padding: 15px;
+    border-radius: 50px;
+    border: none;
+    background: #4a90e2;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+form button:hover {
+    background: #357ABD;
+    transform: translateY(-3px) scale(1.03);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 25px;
+    background: #222;
+    color: white;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media(max-width:768px){
+    .hero { flex-direction: column; text-align:center; }
+    .hero img { margin-top: 30px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+    <h2>Tech Institute</h2>
+    <div>
+        <a href="#features">Features</a>
+        <a href="#course">Course</a>
+        <a href="#instructors">Instructors</a>
+        <a href="#enroll">Enroll</a>
+    </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+    <div class="hero-text">
+        <h1>Become a Web Developer</h1>
+        <p>Learn HTML, CSS, JavaScript and build real-world projects with our expert mentors.</p>
+        <a href="#enroll" class="btn">Enroll Now</a>
+    </div>
+    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085" alt="Web Development">
+</div>
+
+<!-- Features -->
+<section id="features">
+    <h2>Course Highlights</h2>
+    <div class="features">
+        <div class="feature">Beginner Friendly</div>
+        <div class="feature">Hands-on Projects</div>
+        <div class="feature">Expert Mentors</div>
+        <div class="feature">Career Guidance</div>
+    </div>
+</section>
+
+<!-- Course Details -->
+<section id="course">
+    <h2>What You Will Learn</h2>
+    <p>
+        • HTML & CSS fundamentals<br>
+        • Responsive Web Design<br>
+        • JavaScript and DOM Manipulation<br>
+        • Build Real Projects for Portfolio<br>
+        • Best Practices & Optimization
+    </p>
+</section>
+
+<!-- Instructors -->
+<section id="instructors">
+    <h2>Meet Our Instructors</h2>
+    <div class="instructors">
+        <div class="instructor-card">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Instructor 1">
+            <h3>John Doe</h3>
+            <p>Senior Web Developer</p>
+        </div>
+        <div class="instructor-card">
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Instructor 2">
+            <h3>Jane Smith</h3>
+            <p>Frontend Specialist</p>
+        </div>
+    </div>
+</section>
+
+<!-- Enrollment Form -->
+<section id="enroll">
+    <h2>Enroll Now</h2>
+    <form onsubmit="handleSubmit(event)">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <button type="submit">Enroll Now</button>
+    </form>
+</section>
+
+<footer>
+    <p>© 2026 Tech Institute | Designed with ❤️</p>
+</footer>
+
+<script>
+const sections = document.querySelectorAll("section");
+window.addEventListener("scroll", () => {
+    sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if(top < window.innerHeight - 100){
+            sec.classList.add("show");
+        }
+    });
+});
+
+// Enrollment alert
+function handleSubmit(e){
+    e.preventDefault();
+    alert("🎉 You have successfully enrolled in the Web Development Course!");
+    e.target.reset();
+}
+</script>
+
+</body>
+</html>
